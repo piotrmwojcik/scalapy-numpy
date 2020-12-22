@@ -1,7 +1,8 @@
 package me.shadaj.scalapy.numpy
 
+import me.shadaj.scalapy.interpreter.PyValue
 import me.shadaj.scalapy.py
-import me.shadaj.scalapy.py.{PyValue, Reader, Writer}
+import me.shadaj.scalapy.readwrite.{Reader, Writer}
 
 class NDArray[T](val value: PyValue)(implicit reader: Reader[T]) extends py.Object with Seq[T] {
   private val origDynamic = this.as[py.Dynamic]
@@ -26,11 +27,11 @@ class NDArray[T](val value: PyValue)(implicit reader: Reader[T]) extends py.Obje
 
   def astype(newType: NumPyType): NDArray[T] = origDynamic.astype(newType).as[NDArray[T]]
 
-  def reshape(shape: Seq[Int]): NDArray[T] = origDynamic.reshape(shape).as[NDArray[T]]
+  def reshape(shape: PythonSeq[Int]): NDArray[T] = origDynamic.reshape(shape).as[NDArray[T]]
 
   def shape: Seq[Int] = origDynamic.shape.as[Seq[Int]]
 
-  override def length: Int = py.global.len(this).as[Int]
+  override def length: Int = py.Dynamic.global.len(this).as[Int]
 
   override def apply(idx: Int): T = origDynamic.arrayAccess(idx).as[T]
 
