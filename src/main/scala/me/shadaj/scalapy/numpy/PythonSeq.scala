@@ -10,7 +10,7 @@ import scala.language.implicitConversions
 trait PythonSeq[K] extends py.Object
 object PythonSeq {
   implicit def seqToPythonSeq[K <: py.Any](seq: Seq[K]): PythonSeq[K] = {
-    seq.toPythonProxy.as[PythonSeq[K]]
+    seq.toPythonCopy.as[PythonSeq[K]]
   }
 
   def empty[K <: py.Any]: PythonSeq[K] = seqToPythonSeq(Seq.empty[K])
