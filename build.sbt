@@ -35,7 +35,7 @@ lazy val scalaPyNumpyCross = crossProject(JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
     name := "scalapy-numpy",
-    libraryDependencies += "me.shadaj" %% "scalapy-core" % "0.4.0+11-aea09719"
+    libraryDependencies += "me.shadaj" %%% "scalapy-core" % "0.4.0+11-aea09719"
   ).jvmSettings(
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0" % Test,
