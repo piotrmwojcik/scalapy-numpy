@@ -20,4 +20,8 @@ object PythonSeq {
   implicit def seqString(seq: Seq[String]): PythonSeq[String] = {
     seq.toPythonCopy.as[PythonSeq[String]]
   }
+
+  implicit def seqInt(seq: Seq[Int]): PythonSeq[Int] = {
+    seq.toPythonCopy.as[PythonSeq[Int]]
+  }
 }
