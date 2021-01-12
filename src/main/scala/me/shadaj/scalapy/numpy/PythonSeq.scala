@@ -16,4 +16,8 @@ object PythonSeq {
   def empty[K <: py.Any]: PythonSeq[K] = seqToPythonSeq(Seq.empty[K])
 
   def emptyString: PythonSeq[String] = Seq.empty[String].toPythonCopy.as[PythonSeq[String]]
+
+  implicit def seqString(seq: Seq[String]): PythonSeq[String] = {
+    seq.toPythonCopy.as[PythonSeq[String]]
+  }
 }
