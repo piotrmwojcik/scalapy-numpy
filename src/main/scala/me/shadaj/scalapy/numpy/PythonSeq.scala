@@ -24,4 +24,8 @@ object PythonSeq {
   implicit def seqInt(seq: Seq[Int]): PythonSeq[Int] = {
     seq.toPythonCopy.as[PythonSeq[Int]]
   }
+
+  implicit def seqTuple[K <: py.Any, S <: py.Any](seq: Seq[(K, S)]): PythonSeq[(K, S)] = {
+    seq.toPythonCopy.as[PythonSeq[(K, S)]]
+  }
 }
