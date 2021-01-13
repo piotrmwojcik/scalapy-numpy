@@ -28,28 +28,30 @@ lazy val scalaPyNumpy = project.in(file(".")).aggregate(
   scalaSource in Test := baseDirectory.value / "no-src"
 )
 
+resolvers in ThisBuild += "jitpack" at "https://jitpack.io"
+
 lazy val scalaPyNumpyCross = crossProject(JVMPlatform, NativePlatform)
   .crossType(CrossType.Pure)
   .in(file("."))
   .settings(
     name := "scalapy-numpy",
-    libraryDependencies += "me.shadaj" %%% "scalapy-core" % "0.3.0+31-94930a4d",
+    libraryDependencies += "me.shadaj" %%% "scalapy-core" % "0.4.0+11-aea09719"
   ).jvmSettings(
-    crossScalaVersions := supportedScalaVersions,
-    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0" % Test,
-    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
-    fork in Test := true,
-    javaOptions in Test += s"-Djna.library.path=${"python3-config --prefix".!!.trim}/lib"
-  ).nativeSettings(
-    scalaVersion := scala211Version,
-    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0-SNAP8" % Test,
-    libraryDependencies += "com.github.lolgab" %%% "scalacheck" % "1.14.1" % Test,
-    nativeLinkStubs := true,
-    nativeLinkingOptions ++= {
-      import scala.sys.process._
-      "python3-config --ldflags".!!.split(' ').map(_.trim).filter(_.nonEmpty).toSeq
-    }
-  )
+  crossScalaVersions := supportedScalaVersions,
+  libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0" % Test,
+  libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
+  fork in Test := true,
+  javaOptions in Test += s"-Djna.library.path=${"python3-config --prefix".!!.trim}/lib"
+).nativeSettings(
+  scalaVersion := scala211Version,
+  libraryDependencies += "org.scalatest" %%% "scalatest" % "3.3.0-SNAP2" % Test,
+  libraryDependencies += "com.github.lolgab" %%% "scalacheck" % "1.14.1" % Test,
+  nativeLinkStubs := true,
+  nativeLinkingOptions ++= {
+    import scala.sys.process._
+    "python3-config --ldflags".!!.split(' ').map(_.trim).filter(_.nonEmpty).toSeq
+  }
+)
 
 lazy val scalaPyNumpyJVM = scalaPyNumpyCross.jvm
 lazy val scalaPyNumpyNative = scalaPyNumpyCross.native
